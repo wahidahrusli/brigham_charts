@@ -1,0 +1,216 @@
+/* .line {
+        fill: none;
+        stroke: steelblue;
+        stroke-width: 1.5px;
+    }
+.zoom {
+  cursor: move;
+  fill: none;
+  pointer-events: all;
+}
+*/
+rect.selection
+{
+	fill:green;
+}
+
+
+.zoom {
+  cursor: move;
+  fill: none;
+  pointer-events: all;
+}
+
+.message {
+  position: relative;
+  border: 3px solid #73AD21;
+}
+
+.axis axis--y{
+	
+}
+#rect{
+	cursor:pointer;
+    pointer-events: all;
+}
+#rect {
+      height: 40px;
+      position: relative;
+      width: 7px;
+      fill: #000;
+      top: -10px;
+      left: -20px;
+      border-radius: 50px;
+    }
+#rect:after {
+      background: red;
+      content: "";
+      height: 20px;
+      left: -40px;
+      position: relative;
+      top: 40px;
+      width: 100px;
+}
+
+#rectLeft{
+	cursor:pointer;
+    pointer-events: all;
+}
+#rectLeft {
+      background: red;
+      height: 20px;
+      position: relative;
+      width: 4px;
+      fill: #000;
+      top: -10px;
+      left: -20px;
+      border-radius: 50px;
+    }
+#rectLeft:after {
+      background: red;
+      content: "";
+      height: 20px;
+      left: -40px;
+      position: relative;
+      top: 40px;
+      width: 100px;
+}
+
+#rectRight{
+	cursor:pointer;
+    pointer-events: all;
+}
+#rectRight {
+      background: red;
+      height: 20px;
+      position: relative;
+      width: 4px;
+      fill: #000;
+      top: -10px;
+      left: -20px;
+      border-radius: 50px;
+    }
+#rectRight:after {
+      background: red;
+      content: "";
+      height: 20px;
+      left: -40px;
+      position: relative;
+      top: 40px;
+      width: 100px;
+}
+
+.line {
+    fill: none;
+    stroke: #000;
+    stroke-width: 6;
+}
+
+div.tooltip {	
+    position: absolute;			
+    text-align: center;						
+    padding: 2px;				
+    font: 12px sans-serif;		
+    background: lightsteelblue;	
+    border: 0px;		
+    border-radius: 8px;			
+    pointer-events: none;	
+    width:auto;
+  	margin: 1rem 1.5rem 1rem 1rem;
+    height: auto;	
+}
+
+/*<svg width="800" height="300">
+	<g class="inner_space" transform="translate(100,30)">
+	<rect id="rect" x="540.0597460791636" y="140" width="15" height="15" fill="DodgerBlue"></rect>
+	<rect id="rect" x="480.0896191187453" y="60" width="15" height="15" fill="DodgerBlue"></rect>
+	<g class="axis axis--x" transform="translate(0,220)" fill="none" font-size="10" font-family="sans-serif" text-anchor="middle">
+	<path class="domain" stroke="currentColor" d="M0.5,6V0.5H660.5V6"></path>
+	<g class="tick" opacity="1" transform="translate(0.5,0)">
+		<line stroke="currentColor" y2="6"></line>
+		<text fill="currentColor" y="9" dy="0.71em">01</text>
+	</g>
+	<g class="tick" opacity="1" transform="translate(60.47012696041822,0)">
+		<line stroke="currentColor" y2="6"></line>
+		<text fill="currentColor" y="9" dy="0.71em">02</text>
+	</g>
+	<g class="tick" opacity="1" transform="translate(120.44025392083644,0)">
+		<line stroke="currentColor" y2="6"></line>
+		<text fill="currentColor" y="9" dy="0.71em">03</text>
+	</g>
+	<g class="tick" opacity="1" transform="translate(180.41038088125467,0)">
+		<line stroke="currentColor" y2="6"></line>
+		<text fill="currentColor" y="9" dy="0.71em">04</text>
+	</g>
+	<g class="tick" opacity="1" transform="translate(240.54480955937265,0)">
+		<line stroke="currentColor" y2="6"></line>
+		<text fill="currentColor" y="9" dy="0.71em">05</text>
+	</g>
+	<g class="tick" opacity="1" transform="translate(300.51493651979087,0)">
+		<line stroke="currentColor" y2="6"></line>
+		<text fill="currentColor" y="9" dy="0.71em">06</text>
+	</g>
+	<g class="tick" opacity="1" transform="translate(360.48506348020913,0)">
+		<line stroke="currentColor" y2="6"></line>
+		<text fill="currentColor" y="9" dy="0.71em">07</text>
+	</g>
+	<g class="tick" opacity="1" transform="translate(420.4551904406273,0)">
+		<line stroke="currentColor" y2="6"></line>
+		<text fill="currentColor" y="9" dy="0.71em">08</text>
+	</g>
+	<g class="tick" opacity="1" transform="translate(480.5896191187453,0)">
+		<line stroke="currentColor" y2="6"></line>
+		<text fill="currentColor" y="9" dy="0.71em">09</text>
+	</g>
+	<g class="tick" opacity="1" transform="translate(540.5597460791636,0)">
+		<line stroke="currentColor" y2="6"></line>
+		<text fill="currentColor" y="9" dy="0.71em">10</text>
+	</g>
+	<g class="tick" opacity="1" transform="translate(600.5298730395817,0)">
+		<line stroke="currentColor" y2="6"></line>
+		<text fill="currentColor" y="9" dy="0.71em">11</text>
+	</g>
+	<g class="tick" opacity="1" transform="translate(660.5,0)">
+		<line stroke="currentColor" y2="6"></line>
+		<text fill="currentColor" y="9" dy="0.71em">12</text>
+	</g>
+	</g>
+	<g class="axis axis--y" fill="none" font-size="10" font-family="sans-serif" text-anchor="end">
+		<path class="domain" stroke="currentColor" d="M-6,220.5H0.5V60.5H-6"></path>
+		<g class="tick" opacity="1" transform="translate(0,220.5)">
+			<line stroke="currentColor" x2="-6"></line>
+			<text fill="currentColor" x="-9" dy="0.32em"></text>
+		</g>
+		<g class="tick" opacity="1" transform="translate(0,140.5)">
+			<line stroke="currentColor" x2="-6"></line>
+			<text fill="currentColor" x="-9" dy="0.32em">BLCVA</text>
+		</g>
+		<g class="tick" opacity="1" transform="translate(0,60.5)">
+			<line stroke="currentColor" x2="-6"></line>
+			<text fill="currentColor" x="-9" dy="0.32em">EOSS</text>
+		</g>
+	</g>
+	</g>
+	</svg>*/
+
+	/*		// let gridlinesX = xAxis
+  //                   .ticks()
+  //                   .tickSize(-(height - OFFSET_CHART_Y * 3))
+  //                   .scale(xAxisScale)
+  //       gX.call(gridlinesX);
+
+
+  //       let gridlinesY = yAxis
+  //                   .ticks()
+  //                   .tickSize(-(width - OFFSET_CHART_X * 2))
+  //                   .scale(yAxisScale)
+  //       gY.call(gridlinesY);*/
+
+
+
+
+
+
+
+
+
