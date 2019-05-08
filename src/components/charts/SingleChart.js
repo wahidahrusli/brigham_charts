@@ -20,7 +20,14 @@ class SingleChart extends Component{
 		this.state={
 			object: null
 		}
-
+		this.yDomainNames = this.yDomainNames.bind(this)
+		this.lineFuncData = this.lineFuncData.bind(this)
+		this.generateArrayNumbers = this.generateArrayNumbers.bind(this)
+		this.primaryTimeFrameParse = this.primaryTimeFrameParse.bind(this)
+		this.fitMinusArrayNumbers = this.fitMinusArrayNumbers.bind(this)
+		this.fitPlusArrayNumbers = this.rescaleMeasures.bind(this)
+		this.rescaleMeasures = this.rescaleMeasures.bind(this)
+		this.getDates = this.getDates.bind(this)
 	}
 
 	componentDidMount() {
