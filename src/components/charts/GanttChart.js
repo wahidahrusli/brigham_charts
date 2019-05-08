@@ -7,6 +7,7 @@ import { max, min, extent } from 'd3-array';
 import {timeFormat} from 'd3-time-format';
 import {line, curveLinear} from 'd3-shape';
 import {brushX} from 'd3-brush';
+import PropTypes from "prop-types";
 
 import {timeSecond, timeMinute, timeHour, timeDay, timeMonth, timeWeek, timeYear} from 'd3-time';
 import './style.css';
@@ -14,26 +15,17 @@ import './style.css';
 
 class GanttChart extends Component{
 
-	componentDidMount() {
+	constructor(props){
+		super(props)
+		this.state={
+			object: null
+		}
 
-       	let dataset = {
-       		'primary-time-frame':{value:10, unit:'years', plus:1, minus:1},
-       		BLCVA:{
-       			value:0, unit:'months', plus:4, minus:4,
-       			relative_measures:[
-       				{'measure':'First Attack Date1', value:'20', unit:'days', 'plus':1, minus:1},
-       				{'measure':'First Attack Date2', value:'10', unit:'months', 'plus':4, minus:4},
-       				{'measure':'First Attack Date3', value:'5', unit:'months', 'plus':6, minus:6},
-       				{'measure':'First Attack Date4', value:'3', unit:'years', 'plus':2, minus:2},
-       			]
-       		},
-       		EDSS:{value:9, unit:'years', plus:1, minus:1},
-       		EDSS2:{value:5, unit:'months', plus:2, minus:2},
-       		EDSS3:{value:7, unit:'years', plus:3, minus:3}
-       	};
+	}
 
-
-       	let timeFrame = this.primaryTimeFrameParse(dataset);
+	componentDidMount() {	
+		
+       	let timeFrame = this.primaryTimeFrameParse(this.props.dataset);
 
        	let start_date = timeFrame.start_date;
        	let finish_date = timeFrame.finish_date;
@@ -47,7 +39,7 @@ class GanttChart extends Component{
 		    formatWeek = timeFormat("%b %d"),
 		    formatMonth = timeFormat("%B"),
 		    formatYear = timeFormat("%y");
-
+		
 		function multiFormat(date) {
 		  return (timeSecond(date) < date ? formatMillisecond
 		    : timeMinute(date) < date ? formatSecond
@@ -67,7 +59,7 @@ class GanttChart extends Component{
 		let width = +svgWidth - margin.left - margin.right;
 		let height = +svgHeight - margin.top - margin.bottom;
 
-		let {domain_names, ranges, yDomainMap, new_height} = this.yDomainNames(dataset);
+		let {domain_names, ranges, yDomainMap, new_height} = this.yDomainNames(this.props.dataset);
 		height = new_height;
 		svgHeight = height+margin.top+margin.bottom;
 
@@ -198,7 +190,7 @@ class GanttChart extends Component{
                     .tickSize(-(width - OFFSET_CHART_X * 2))
                     .scale(yAxisScale)
         gY.call(gridlinesY);
-
+		
 		function zoomFunction(){
 			  let new_xScale = event.transform.rescaleX(xAxisScale);
 			  gX.call(xAxis.scale(new_xScale));
@@ -229,7 +221,7 @@ class GanttChart extends Component{
 	}
 
 
-	yDomainNames = (dataset) => {
+	yDomainNames(dataset){
 
 		let domain_names = Object.keys(dataset);
 		domain_names = domain_names.filter((data)=> data !== 'primary-time-frame');
@@ -254,13 +246,12 @@ class GanttChart extends Component{
 		return {domain_names, ranges, yDomainMap, new_height};
 	}
 
-	mouseOverInfo = (data) => {
+	mouseOverInfo(data){
 		let size = data.measure_relatives.length;
 		let height = (size*100)+40;
 		return(
 			`<svg width="420" height=${height}>
 				<g transform="translate(50)">
-
 				${
 					data.measure_relatives.map((measures, measures_index)=>{
 						let startPosition = measures.toolTipAxis.indexOf(measures.measure_value);
@@ -268,14 +259,12 @@ class GanttChart extends Component{
 							startPosition = 1;
 						}
 						startPosition = 150 - 80;
-
 						let xWidth = (measures.toolTipAxis.length*20)+startPosition+10;
 		
 						return `<g class="axis axis--x" transform="translate(${startPosition},${(measures_index+1)*100})" fill="none" font-size="10" font-family="sans-serif" text-anchor="middle">
 							<path class="domain" stroke="currentColor" d="M0.5,6 V0.5 H${160}"></path>
 							${
 								
-
 								`<g class="tick" opacity="1" transform="translate(0,0)">
 									<line stroke="currentColor" y2="6"></line>
 									<text fill="currentColor" y="9" dy="0.71em">${measures.relative_measure_value-measures.relative_measure_minus}</text>
@@ -289,7 +278,6 @@ class GanttChart extends Component{
 									<text fill="currentColor" y="9" dy="0.71em">${measures.relative_measure_value+measures.relative_measure_plus}</text>
 								</g>
 								`
-
 							}
 							
 						</g>
@@ -317,7 +305,7 @@ class GanttChart extends Component{
 			);
 	}
 
-	lineFuncData = (measure_values)=>{
+	lineFuncData(measure_values){
 
 		let result = [];
 		for (let measure of measure_values) {
@@ -333,7 +321,7 @@ class GanttChart extends Component{
 		return result;
 	}
 
-	generateArrayNumbers = (min, max)=>{
+	generateArrayNumbers(min, max){
 		let result = [];
 		for (let i = min; i<=max; i++){
 			result.push(i);
@@ -341,7 +329,7 @@ class GanttChart extends Component{
 		return result;
 	}
 
-	primaryTimeFrameParse = (dataset) => {
+	primaryTimeFrameParse(dataset){
 		let primaryTimeFrame = dataset['primary-time-frame'];
 		let age = primaryTimeFrame.value;
 		let age_plus = primaryTimeFrame.plus;
@@ -409,7 +397,7 @@ class GanttChart extends Component{
 
 	}
 
-	fitMinusArrayNumbers = (array)=>{
+	fitMinusArrayNumbers(array){
 		if (array.length > 8){
 			let result = [array[0], "..."];
 			let s = array.length - 6;
@@ -421,7 +409,7 @@ class GanttChart extends Component{
 		return array;
 	}
 
-	fitPlusArrayNumbers = (array)=>{
+	fitPlusArrayNumbers(array){
 		if (array.length > 8){
 			let result = [array.slice(0, 7), "...", array[array.length-1]];
 			return result;
@@ -430,7 +418,7 @@ class GanttChart extends Component{
 		return array;
 	}
 
-	rescaleMeasures = (measure_object, age) => {
+	rescaleMeasures(measure_object, age){
 		let unit = measure_object.unit;
 		let value = measure_object.value;
 		let minus = measure_object.minus;
@@ -470,7 +458,7 @@ class GanttChart extends Component{
 	}
 
 
-	getDates = (startDate, endDate, interval) => {
+	getDates(startDate, endDate, interval){
 		const duration = endDate - startDate;
 		const steps = duration / interval;
 		return Array.from({length: steps+1}, (v,i) => new Date(startDate.valueOf() + (interval * i)));
@@ -483,3 +471,11 @@ class GanttChart extends Component{
 }
 
 export default GanttChart;
+
+GanttChart.propTypes = {
+	dataset: PropTypes.array,
+	value: PropTypes.number.isRequired,
+	unit: PropTypes.string.isRequired,
+	plus: PropTypes.number.isRequired,
+	minus: PropTypes.number.isRequired
+}

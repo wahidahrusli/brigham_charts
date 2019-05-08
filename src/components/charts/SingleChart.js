@@ -7,6 +7,7 @@ import { max, min, extent } from 'd3-array';
 import {timeFormat} from 'd3-time-format';
 import {line, curveLinear} from 'd3-shape';
 import {brushX} from 'd3-brush';
+import PropTypes from "prop-types";
 
 import {timeSecond, timeMinute, timeHour, timeDay, timeMonth, timeWeek, timeYear} from 'd3-time';
 import './style.css';
@@ -14,16 +15,18 @@ import './style.css';
 
 class SingleChart extends Component{
 
+	constructor(props){
+		super(props)
+		this.state={
+			object: null
+		}
+
+	}
+
 	componentDidMount() {
 
-       	let dataset = {
-       		'primary-time-frame':{value:10, unit:'years', plus:1, minus:1},
-       		EDSS:{value:9, unit:'years', plus:1, minus:1},
-       		
-       	};
 
-
-       	let timeFrame = this.primaryTimeFrameParse(dataset);
+       	let timeFrame = this.primaryTimeFrameParse(this.props.dataset);
 
        	let start_date = timeFrame.start_date;
        	let finish_date = timeFrame.finish_date;
@@ -56,7 +59,7 @@ class SingleChart extends Component{
 		let width = +svgWidth - margin.left - margin.right;
 		let height = +svgHeight - margin.top - margin.bottom;
 
-		let {domain_names, ranges, yDomainMap, new_height} = this.yDomainNames(dataset);
+		let {domain_names, ranges, yDomainMap, new_height} = this.yDomainNames(this.props.dataset);
 		height = new_height;
 		svgHeight = height+margin.top+margin.bottom;
 
@@ -192,7 +195,7 @@ class SingleChart extends Component{
 	}
 
 
-	yDomainNames = (dataset) => {
+	yDomainNames(dataset){
 
 		let domain_names = Object.keys(dataset);
 		domain_names = domain_names.filter((data)=> data !== 'primary-time-frame');
@@ -217,7 +220,7 @@ class SingleChart extends Component{
 		return {domain_names, ranges, yDomainMap, new_height};
 	}
 
-	lineFuncData = (measure_values)=>{
+	lineFuncData(measure_values){
 
 		let result = [];
 		for (let measure of measure_values) {
@@ -233,7 +236,7 @@ class SingleChart extends Component{
 		return result;
 	}
 
-	generateArrayNumbers = (min, max)=>{
+	generateArrayNumbers(min, max){
 		let result = [];
 		for (let i = min; i<=max; i++){
 			result.push(i);
@@ -241,7 +244,7 @@ class SingleChart extends Component{
 		return result;
 	}
 
-	primaryTimeFrameParse = (dataset) => {
+	primaryTimeFrameParse(dataset){
 		let primaryTimeFrame = dataset['primary-time-frame'];
 		let age = primaryTimeFrame.value;
 		let age_plus = primaryTimeFrame.plus;
@@ -309,7 +312,7 @@ class SingleChart extends Component{
 
 	}
 
-	fitMinusArrayNumbers = (array)=>{
+	fitMinusArrayNumbers(array){
 		if (array.length > 8){
 			let result = [array[0], "..."];
 			let s = array.length - 6;
@@ -321,7 +324,7 @@ class SingleChart extends Component{
 		return array;
 	}
 
-	fitPlusArrayNumbers = (array)=>{
+	fitPlusArrayNumbers(array){
 		if (array.length > 8){
 			let result = [array.slice(0, 7), "...", array[array.length-1]];
 			return result;
@@ -330,7 +333,7 @@ class SingleChart extends Component{
 		return array;
 	}
 
-	rescaleMeasures = (measure_object, age) => {
+	rescaleMeasures(measure_object, age){
 		let unit = measure_object.unit;
 		let value = measure_object.value;
 		let minus = measure_object.minus;
@@ -370,7 +373,7 @@ class SingleChart extends Component{
 	}
 
 
-	getDates = (startDate, endDate, interval) => {
+	getDates(startDate, endDate, interval){
 		const duration = endDate - startDate;
 		const steps = duration / interval;
 		return Array.from({length: steps+1}, (v,i) => new Date(startDate.valueOf() + (interval * i)));
@@ -383,3 +386,11 @@ class SingleChart extends Component{
 }
 
 export default SingleChart;
+
+SingleChart.propTypes = {
+	dataset: PropTypes.array,
+	value: PropTypes.number.isRequired,
+	unit: PropTypes.string.isRequired,
+	plus: PropTypes.number.isRequired,
+	minus: PropTypes.number.isRequired
+}
